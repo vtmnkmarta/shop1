@@ -1,0 +1,48 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Nunito sans";
+}
+
+.wrapper {
+    max-width: 375px;
+    margin: 0 auto;
+}
+.main-div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 20px;
+}
+
+.product {
+    width: 157px;
+    position: relative;
+}
+
+.image {
+    border-radius: 10px;
+    width: 100%;
+}
+
+.add-to-card-btn {
+    position: absolute;
+    z-index: 1;
+    bottom: 53px;
+    right: 10px;
+}
+
+.product-name {
+    font-size: 14px;
+    color: rgba(96, 96, 96, 1);
+}
+
+.price {
+    color: rgba(48, 48, 48, 1);
+    font-size: 14px;
+    font-weight: 700;
+}
