@@ -1,47 +1,7 @@
-/*fetch(APIurl)
-.then(res => res.json())
-.then(json => {arr = json.products; 
-    for (let index = 0; index < arr.length; index++) {
-        const element = arr[index];
-        //console.log(element.title);   
-    }
-})
-
-const btn1 = document.querySelector("#btn1");
-const btn2 = document.querySelector("#btn2");
-
-
-btn1.addEventListener("click", ()=>{
-    fetch(APIurl)
-    .then(res => res.json())
-    .then(json => {arr = json.products; 
-        for (let index = 0; index < arr.length; index++) {
-            const element = arr[index];
-            if (element.price < 50) {
-                console.log(element.title);
-            }
-             
-        }
-    })
-})
-
-btn2.addEventListener("click", ()=>{
-    fetch(APIurl)
-    .then(res => res.json())
-    .then(json => {arr = json.products; 
-
-        for (let index = 0; index < arr.length; index++) {
-            const element = arr[index];
-            if (element.price > 50) {
-               console.log(element.title);
-            }   
-        }
-    })
-})
-*/
-//завдання 3-4
 let APIurl = 'https://dummyjson.com/products/';
 let arr;
+let category = 'all';
+let price = 2000;
 const container = document.querySelector(".container");
 const titles = document.querySelector(".titles");
 const mainDiv = document.querySelector('.main-div');
@@ -49,6 +9,7 @@ const mainDiv = document.querySelector('.main-div');
 function createProduct(element, condition) {
     if (condition) {
         const product = document.createElement("div");
+        product.setAttribute('data-category', element.category);
         const productImg = document.createElement("img");
         const addToCart = document.createElement("img");
         const productName = document.createElement("p");
@@ -83,20 +44,36 @@ fetch(APIurl)
             createProduct(element, element.title==element.title)
         };
     });
-
 //range functional 
 const rangeInput = document.getElementById("myRange");
 rangeInput.addEventListener("change", function() {
     const rangeValue = rangeInput.value;
-    mainDiv.innerHTML = '';          
-     fetch(APIurl)
-    .then(res => res.json())
-    .then(json => {arr = json.products;
-        for (let index = 0; index < arr.length; index++) {
-            const element = arr[index];
-            createProduct(element, element.price < rangeValue )
-        };
-    });
+    price = rangeValue;
+    console.log(price)
+    // mainDiv.innerHTML = '';   
+    const products = document.querySelectorAll('.product');
+    for (let index = 0; index < products.length; index++) {
+        const element = products[index]; 
+        element.style.display = 'block';
+    }
+    
+    for (let index = 0; index < products.length; index++) {
+        const element = products[index]; 
+        const children = element.children;
+        const prodPrice = Number(children[3].textContent);
+        if (/*element.getAttribute('data-category') !== category &&*/ prodPrice > price) {
+            element.style.display = 'none';
+        }
+    } 
+
+    // fetch(APIurl)
+    // .then(res => res.json())
+    // .then(json => {arr = json.products;
+    //     for (let index = 0; index < arr.length; index++) {
+    //         const element = arr[index];
+    //         // createProduct(element, element.price < rangeValue && element.category == category )
+    //     };
+    // });
 });
 
 //add all cathegories button 
@@ -116,7 +93,7 @@ allCategories.addEventListener('click', ()=>{
     });  
 })
 //add category buttons 
-arrCategory =[];
+let arrCategory =[];
 fetch(APIurl)
     .then(res => res.json())
     .then(json => {arr = json.products;
@@ -135,7 +112,7 @@ fetch(APIurl)
             button.classList.add("category-btn");
 
             button.addEventListener('click', (event) => {
-                let category = document.getElementById(event.target.id).textContent; 
+                category = document.getElementById(event.target.id).textContent; 
                 mainDiv.innerHTML = '';                
                 fetch(APIurl)
                 .then(res => res.json())
@@ -145,12 +122,9 @@ fetch(APIurl)
             
                     for (let index = 0; index < arr.length; index++) {
                         const element = arr[index];
-                        createProduct(element, element.category == category)
+                        createProduct(element, element.category == category && element.price < price)
                     };
                 }); 
             });  
         };
     });
-
-
-    
